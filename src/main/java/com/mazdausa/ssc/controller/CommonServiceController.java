@@ -13,7 +13,7 @@ import com.mazdausa.ssc.service.impl.GenericResponseWrapper;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/commonservice")
+@RequestMapping("/common-service")
 @ApiOperation(value = "This consumes the common services api")
 public class CommonServiceController {
 

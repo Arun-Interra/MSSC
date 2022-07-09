@@ -48,4 +48,10 @@ public class BaseDataController {
 		return GenericResponseWrapper.GenericResponseFunction.apply(
 				roServ.getRoData(),null);
 	}
+	
+	@GetMapping("/ro/{dlrCd}")
+	public GenericResponse getDlrRoData(@PathVariable String dlrCd) {
+		return GenericResponseWrapper.GenericResponseFunction.apply(
+				roServ.getDlrRoData(dlrCd),null);
+	}
 }

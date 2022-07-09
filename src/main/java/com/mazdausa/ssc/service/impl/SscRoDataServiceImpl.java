@@ -16,4 +16,10 @@ public class SscRoDataServiceImpl {
 	public List<SscRoData> getRoData(){
 		return roRepo.getRoData();
 	}
+	
+	public SscRoData getDlrRoData(String dlrCd){
+		return roRepo.getDlrRoData(dlrCd);
+	}
+	
+	
 }
