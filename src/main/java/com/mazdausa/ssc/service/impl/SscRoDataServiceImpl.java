@@ -13,12 +13,12 @@ public class SscRoDataServiceImpl {
 	@Autowired
 	private SscRoDataRepositoryImpl roRepo;
 
-	public List<SscRoData> getRoData(){
-		return roRepo.getRoData();
-	}
-	
-	public SscRoData getDlrRoData(String dlrCd){
-		return roRepo.getDlrRoData(dlrCd);
+	public List<SscRoData> getRoData(String dlrCd){
+		if(dlrCd != null)
+			return roRepo.getRoData(dlrCd);
+		else
+			return roRepo.getRoData(null);
+		
 	}
 	
 	

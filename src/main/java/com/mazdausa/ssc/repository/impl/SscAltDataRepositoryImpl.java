@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.mazdausa.ssc.common.db.JdbcTemplateConfig;
 import com.mazdausa.ssc.dao.SscAltData;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class SscAltDataRepositoryImpl {
 	
 	
@@ -22,27 +25,20 @@ public class SscAltDataRepositoryImpl {
 	final String AltDataGetQuery = "SELECT * FROM MMAT.SSC_ALT_DATA";
 	
 	
-	public SscAltData getDlrAltData(String dlrCd) {
-		SscAltData altData = new SscAltData();
-		
-		try {
-			altData = jdbcTemp.jdbcTemplate().queryForObject(AltDataDlrGetQuery, new BeanPropertyRowMapper<>(SscAltData.class), dlrCd);
-		}
-		catch(Exception e) {
-			
-		}
-		
-		return altData;
-	}
-	
-	public List<SscAltData> getAltData() {
+	public List<SscAltData> getAltData(String dlrCd) {
 		List<SscAltData> altData = new ArrayList<SscAltData>();
 		
 		try {
-			altData = jdbcTemp.jdbcTemplate().query(AltDataGetQuery, new BeanPropertyRowMapper<>(SscAltData.class));
+			
+			if(dlrCd != null) {
+				altData = jdbcTemp.jdbcTemplate().query(AltDataDlrGetQuery, new BeanPropertyRowMapper<>(SscAltData.class), dlrCd);
+			}
+			
+			else
+				altData = jdbcTemp.jdbcTemplate().query(AltDataGetQuery, new BeanPropertyRowMapper<>(SscAltData.class));
 		}
 		catch(Exception e) {
-			
+			log.error("Unable to execute query", e);
 		}
 		
 		return altData;

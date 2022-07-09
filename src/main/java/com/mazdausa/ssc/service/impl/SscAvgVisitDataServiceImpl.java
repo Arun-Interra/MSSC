@@ -14,8 +14,11 @@ public class SscAvgVisitDataServiceImpl {
 	@Autowired
 	private SscAvgVisitDataRepositoryImpl avgVistRepo;
 
-	public List<SscAvgVisitData> getAvgVistData(){
-		
-		return avgVistRepo.getAvgVisitData();
+	public List<SscAvgVisitData> getAvgVistData(String dlrCd){
+		if(dlrCd != null)
+			return avgVistRepo.getAvgVisitData(dlrCd);
+		else
+			return avgVistRepo.getAvgVisitData(null);
 	}
+	
 }
