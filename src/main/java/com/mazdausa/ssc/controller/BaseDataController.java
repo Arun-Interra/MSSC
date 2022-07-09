@@ -12,6 +12,7 @@ import com.mazdausa.ssc.service.impl.SscAltDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscAvgVisitDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscDfsBaseDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscEmployeDataServiceImpl;
+import com.mazdausa.ssc.service.impl.SscFacilityDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscRoDataServiceImpl;
 
 @RestController
@@ -32,6 +33,9 @@ public class BaseDataController {
 	
 	@Autowired
 	private SscEmployeDataServiceImpl empServ;
+	
+	@Autowired
+	private SscFacilityDataServiceImpl facilityServ;
 	
 	
 	@GetMapping(value = {"/alt", "/alt/{dlrCd}"})
@@ -86,4 +90,22 @@ public class BaseDataController {
 			return GenericResponseWrapper.GenericResponseFunction.apply(
 					empServ.getEmployeData(null),null);
 	}
+	
+	@GetMapping(value = {"/facility", "/facility/{dlrCd}"})
+	public GenericResponse getFacilityData(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					facilityServ.getFacilityData(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					facilityServ.getFacilityData(null),null);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
