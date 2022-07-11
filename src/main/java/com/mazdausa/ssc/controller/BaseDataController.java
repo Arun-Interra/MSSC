@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mazdausa.ssc.dao.GenericResponse;
 import com.mazdausa.ssc.service.impl.GenericResponseWrapper;
+import com.mazdausa.ssc.service.impl.RegionalDealersService;
 import com.mazdausa.ssc.service.impl.SscAltDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscAvgVisitDataServiceImpl;
+import com.mazdausa.ssc.service.impl.SscConfigDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscDfsBaseDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscEmployeDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscFacilityDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscRoDataServiceImpl;
+import com.mazdausa.ssc.service.impl.SscSsoDataServiceImpl;
+import com.mazdausa.ssc.service.impl.SscUioDataServiceImpl;
 
 @RestController
 @RequestMapping("/base-data")
@@ -37,6 +41,17 @@ public class BaseDataController {
 	@Autowired
 	private SscFacilityDataServiceImpl facilityServ;
 	
+	@Autowired
+	private SscSsoDataServiceImpl ssoServ;
+	
+	@Autowired
+	private SscUioDataServiceImpl uioServ;
+	
+	@Autowired
+	private SscConfigDataServiceImpl configServ;
+	
+	@Autowired
+	private RegionalDealersService rgnDlrServ;
 	
 	@GetMapping(value = {"/alt", "/alt/{dlrCd}"})
 	public GenericResponse getAltData(@PathVariable(required = false) String dlrCd) {
@@ -101,11 +116,44 @@ public class BaseDataController {
 					facilityServ.getFacilityData(null),null);
 	}
 	
+	@GetMapping(value = {"/sso", "/sso/{dlrCd}"})
+	public GenericResponse getSsoData(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					ssoServ.getSsoData(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					ssoServ.getSsoData(null),null);
+	}
+	
+	@GetMapping(value = {"/uio", "/uio/{dlrCd}"})
+	public GenericResponse getUioData(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					uioServ.getUioData(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					uioServ.getUioData(null),null);
+	}
 	
 	
+	@GetMapping(value = {"/config", "/config/{dlrCd}"})
+	public GenericResponse getConfigData(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					configServ.getConfigData(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					configServ.getConfigData(null),null);
+	}
 	
 	
-	
+	@GetMapping(value = {"/region-dlrs"})
+	public GenericResponse getRegiondlrs() {
+
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					rgnDlrServ.getRgnDealers(),null);
+	}
 	
 	
 }
