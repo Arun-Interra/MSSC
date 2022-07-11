@@ -19,6 +19,7 @@ local.properties
 .factorypath
 .classpath
 *.class
+config/
 .project
 .settings/
 target/
