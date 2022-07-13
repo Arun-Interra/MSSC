@@ -105,6 +105,27 @@ public class BaseDataController {
 			return GenericResponseWrapper.GenericResponseFunction.apply(
 					empServ.getEmployeData(null),null);
 	}
+
+	@GetMapping(value = {"/employe/Tech", "/employe/Tech/{dlrCd}"})
+	public GenericResponse getTechCount(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+				empServ.getTechCnt(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					empServ.getTechCnt(null),null);
+	}
+	
+	@GetMapping(value = {"/employe/Sa", "/employe/Sa/{dlrCd}"})
+	public GenericResponse getSaCount(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+				empServ.getSaCnt(dlrCd),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					empServ.getSaCnt(null),null);
+	}
+	
 	
 	@GetMapping(value = {"/facility", "/facility/{dlrCd}"})
 	public GenericResponse getFacilityData(@PathVariable(required = false) String dlrCd) {

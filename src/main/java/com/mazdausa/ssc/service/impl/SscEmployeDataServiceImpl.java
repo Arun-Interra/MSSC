@@ -20,5 +20,20 @@ public class SscEmployeDataServiceImpl {
 		else
 			return empRepo.getEmpData(null);
 	}
+	
+	
+	public List<SscEmployeData> getTechCnt(String dlrCd) {
+		if(dlrCd != null)
+			return empRepo.getTechCnt(dlrCd);
+		else
+			return empRepo.getTechCnt(null);
+	}
+	
+	public List<SscEmployeData> getSaCnt(String dlrCd) {
+		if(dlrCd != null)
+			return empRepo.getSaCnt(dlrCd);
+		else
+			return empRepo.getSaCnt(null);
+	}
 
 }

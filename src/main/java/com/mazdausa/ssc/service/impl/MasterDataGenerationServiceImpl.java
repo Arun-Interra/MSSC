@@ -1,62 +1,46 @@
 package com.mazdausa.ssc.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mazdausa.ssc.dao.SscAltData;
+import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.MasterDataGenerationService;
+import com.mazdausa.ssc.service.masterDataGeneration.ALTCalc;
+import com.mazdausa.ssc.service.masterDataGeneration.ALTRegionCalc;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Service
+@Slf4j
 public class MasterDataGenerationServiceImpl implements MasterDataGenerationService{
 	
 	@Autowired
-	private RegionalDealersService rgnDlrs;
+	private ALTCalc altCalc;
 	
-	@Autowired
-	private SscAltDataServiceImpl altServ;
-
-	@Override
-	public Map<String, Float> AltRgnAct() {
-		
-		Map<String, Double> altRgnAct = new HashMap<String, Double>();
-		
-		Map<String, Set<String>> RgnDealers = rgnDlrs.getRgnDealers();
 	
+	public List<SscReportingMasterData> masterData = new ArrayList<SscReportingMasterData>();
 		
-		List<SscAltData> altData = altServ.getAltData(null); // null returns the data for all the dealers
+	
+	public List<SscReportingMasterData> getMasterData(){
 		
+		try {
+			
+			masterData = altCalc.CalcAltData(masterData);
+			
+		}
+		catch(Exception e) {
+			log.error("unable to calculate RO related Data", e);
+		}
 		
-		double MWalt  = (altData.stream().filter(
-				ad -> RgnDealers.get("MW").contains(ad.getDLR_CD())).mapToDouble(ad -> ad.getALT_VALUE()).sum()) / 
-				(RgnDealers.get("MW").size());
-		
-		double NEalt  = (altData.stream().filter(
-				ad -> RgnDealers.get("NE").contains(ad.getDLR_CD())).mapToDouble(ad -> ad.getALT_VALUE()).sum()) / 
-				(RgnDealers.get("NE").size());
-		
-		double GUalt  = (altData.stream().filter(
-				ad -> RgnDealers.get("GU").contains(ad.getDLR_CD())).mapToDouble(ad -> ad.getALT_VALUE()).sum()) / 
-				(RgnDealers.get("GU").size());
-		
-		double PAalt  = (altData.stream().filter(
-				ad -> RgnDealers.get("PA").contains(ad.getDLR_CD())).mapToDouble(ad -> ad.getALT_VALUE()).sum()) / 
-				(RgnDealers.get("PA").size());
-		
-		altRgnAct.put("MW", MWalt);
-		altRgnAct.put("NE", NEalt);
-		altRgnAct.put("GU", GUalt);
-		altRgnAct.put("PA", PAalt);
-		
-		
-		System.out.println(altRgnAct);
-		// TODO Auto-generated method stub
-		return null;
+		return masterData;
 	}
-
 }

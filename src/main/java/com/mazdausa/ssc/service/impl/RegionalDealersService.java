@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class RegionalDealersService {
 	@Autowired
 	private CommonServiceRestConsumeImpl cmnServ;
 	
+	@PostConstruct   // Retrieve Region-Dealers data on application startup
 	public Map<String, Set<String>> getRgnDealers(){
 		
 		Map<String, Set<String>> dlrs = new HashMap<String, Set<String>>();

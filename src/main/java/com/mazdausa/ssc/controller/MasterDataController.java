@@ -47,7 +47,8 @@ public class MasterDataController {
 	@GetMapping(value = {"/generate"})
 	public GenericResponse generateMasterData(){
 		
-		return GenericResponseWrapper.GenericResponseFunction.apply(GenSrv.AltRgnAct(), null);
+		return GenericResponseWrapper.GenericResponseFunction.apply(GenSrv.getMasterData(), null);
 	}
+	
 	
 }
