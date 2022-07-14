@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,7 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 	
 	public List<SscReportingMasterData> masterData = new ArrayList<SscReportingMasterData>();
 		
-	
+//	@PostConstruct
 	public List<SscReportingMasterData> getMasterData(){
 		
 		try {

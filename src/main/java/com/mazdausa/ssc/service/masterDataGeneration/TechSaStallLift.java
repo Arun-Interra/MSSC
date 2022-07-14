@@ -29,36 +29,38 @@ public class TechSaStallLift {
 		
 		try {
 			Map<String, Integer> SaCnt = empServ.getSaCnt(null);
-			Map<String, Integer> TechCnt = empServ.getSaCnt(null);
+			Map<String, Integer> TechCnt = empServ.getTechCnt(null);
 			
 			Map<String, Integer> StallCntAct = facServ.getStallsCnt(null);
 		
 			
 			masterData.stream().forEach((md) ->{
 				String dlr = md.getDLR_CD();
-				if(TechCnt.containsKey(dlr)) {
-					md.setTECH_CNT_ACT(TechCnt.get(dlr));
-					md.setSTALLS_CNT_REQ(TechCnt.get(dlr));
+				if(TechCnt.containsKey(dlr)) {		//check the Map has the dealer -> indicates the dealers has data for technician
 					
-					if(StallCntAct.containsKey(dlr)) {
-						md.setSTALLS_CNT_ACT(StallCntAct.get(dlr));
+					md.setTECH_CNT_ACT(TechCnt.get(dlr));	//set the technician count
+					md.setSTALLS_CNT_REQ(TechCnt.get(dlr));	//set the stall count as same as technician count
+					
+					if(StallCntAct.containsKey(dlr)) {				//check the Map has the dealer -> indicates the dealers has data for Facility
 						
-						int stallToAdd = md.getSTALLS_CNT_REQ() - md.getSTALLS_CNT_ACT();
-						if(stallToAdd <= 0) {
-							md.setSLTALLS_TO_ADD(0);
-						}
-						else {
-							md.setSLTALLS_TO_ADD(Math.abs(stallToAdd));
+						md.setSTALLS_CNT_ACT(StallCntAct.get(dlr)); //set the stall count
+						md.setSTALLS_USAGE_ACT_PCT((TechCnt.get(dlr) / StallCntAct.get(dlr)) * 100);  //set stall usage % Act -->(No of Tech Actual / No of Stall Actual)
+						
+						int stallToAdd = md.getSTALLS_CNT_REQ() - md.getSTALLS_CNT_ACT();   // calc stall to add --> (# required stall - # actual stall)
+						if(stallToAdd > 0) {
+							md.setSLTALLS_TO_ADD(stallToAdd);
 						}
 					}
 					else {
 						md.setSTALLS_CNT_ACT(0);
+						md.setSTALLS_USAGE_ACT_PCT(0);
 					}
 				}
 				else {
 					md.setTECH_CNT_ACT(0);
 					md.setSTALLS_CNT_REQ(0);
 				}
+				
 				if(SaCnt.containsKey(dlr)) {
 					md.setSA_CNT_ACT(SaCnt.get(dlr));
 				}

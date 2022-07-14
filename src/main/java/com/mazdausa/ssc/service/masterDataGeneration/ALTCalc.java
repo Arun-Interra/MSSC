@@ -55,6 +55,7 @@ public class ALTCalc {
 			 data.setALT_DLR_ACT(dlrAlt);
 			 data.setALT_RGN_ACT(rgnAlt);
 			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
+			 data.setRGN_CD("MW");
 			
 			 masterData.add(data);
 		 }
@@ -67,6 +68,7 @@ public class ALTCalc {
 			 data.setALT_DLR_ACT(dlrAlt);
 			 data.setALT_RGN_ACT(rgnAlt);
 			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
+			 data.setRGN_CD("NE");
 			 
 			 masterData.add(data);
 		 }
@@ -79,6 +81,7 @@ public class ALTCalc {
 			 data.setALT_DLR_ACT(dlrAlt);
 			 data.setALT_RGN_ACT(rgnAlt);
 			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
+			 data.setRGN_CD("GU");
 			 
 			 masterData.add(data);
 		 }
