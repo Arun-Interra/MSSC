@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mazdausa.ssc.dao.GenericResponse;
 import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.impl.GenericResponseWrapper;
+import com.mazdausa.ssc.service.impl.MasterDataGenerationServiceImpl;
 import com.mazdausa.ssc.service.impl.MasterDataServiceImpl;
 
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,9 @@ public class MasterDataController {
 	
 	@Autowired
 	private MasterDataServiceImpl mstDataSrv;
+	
+	@Autowired
+	private MasterDataGenerationServiceImpl GenSrv;
 	
 	@ApiOperation(value = "SSC Reporting Master Data for all dealers",
 			      notes = "GetMapping takes in no Argument, returnsa data for all dealers",
@@ -38,5 +42,13 @@ public class MasterDataController {
 		
 		return GenericResponseWrapper.GenericResponseFunction.apply(mstDataSrv.getDlrMasterData(dlrCd), null);
 	}
+	
+	
+	@GetMapping(value = {"/generate"})
+	public GenericResponse generateMasterData(){
+		
+		return GenericResponseWrapper.GenericResponseFunction.apply(GenSrv.getMasterData(), null);
+	}
+	
 	
 }

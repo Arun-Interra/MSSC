@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class SscEmployeeData {
+public class SscEmployeData {
 
 	private int YEAR;
 	private int MONTH;

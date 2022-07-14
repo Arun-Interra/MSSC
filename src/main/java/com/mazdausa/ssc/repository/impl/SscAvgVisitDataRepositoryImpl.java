@@ -21,25 +21,14 @@ public class SscAvgVisitDataRepositoryImpl {
 	final String AvgVisitDataGetQuery = "SELECT * FROM MMAT.SSC_AVG_VISIT_DATA";
 	
 	
-	public SscAvgVisitData getDlrAvgVisittData(String dlrCd) {
-		SscAvgVisitData Data = new SscAvgVisitData();
-		
-		try {
-			Data = jdbcTemp.jdbcTemplate().queryForObject(
-					AvgVisitDataDlrGetQuery, new BeanPropertyRowMapper<>(SscAvgVisitData.class), dlrCd);
-		}
-		catch(Exception e) {
-			
-		}
-		
-		return Data;
-	}
-	
-	public List<SscAvgVisitData> getAvgVisitData() {
+	public List<SscAvgVisitData> getAvgVisitData(String dlrCd) {
 		List<SscAvgVisitData> Data = new ArrayList<SscAvgVisitData>();
 		
 		try {
-			Data = jdbcTemp.jdbcTemplate().query(AvgVisitDataGetQuery, new BeanPropertyRowMapper<>(SscAvgVisitData.class));
+			if(dlrCd != null)
+				Data = jdbcTemp.jdbcTemplate().query(AvgVisitDataDlrGetQuery, new BeanPropertyRowMapper<>(SscAvgVisitData.class), dlrCd);
+			else
+				Data = jdbcTemp.jdbcTemplate().query(AvgVisitDataGetQuery, new BeanPropertyRowMapper<>(SscAvgVisitData.class));
 		}
 		catch(Exception e) {
 			

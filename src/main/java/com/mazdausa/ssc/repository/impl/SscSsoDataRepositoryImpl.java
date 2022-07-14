@@ -8,30 +8,30 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.mazdausa.ssc.common.db.JdbcTemplateConfig;
-import com.mazdausa.ssc.dao.SscRoData;
+import com.mazdausa.ssc.dao.SscSsoData;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
-public class SscRoDataRepositoryImpl {
+public class SscSsoDataRepositoryImpl {
 	
 	@Autowired
 	private JdbcTemplateConfig jdbcTemp;
 	
-	final String RoDataDlrGetQuery = "SELECT * FROM MMAT.SSC_RO_DATA WHERE DLR_CD = ?";
+	final String SsoDataDlrGetQuery = "SELECT * FROM MMAT.SSC_SSO_DATA WHERE DLR_CD = ?";
 	
-	final String RoDataGetQuery = "SELECT * FROM MMAT.SSC_RO_DATA";
+	final String SsoDataGetQuery = "SELECT * FROM MMAT.SSC_SSO_DATA";
 
 	
-	public List<SscRoData> getRoData(String dlrCd) {
-		List<SscRoData> Data = new ArrayList<SscRoData>();
+	public List<SscSsoData> getRoData(String dlrCd) {
+		List<SscSsoData> Data = new ArrayList<SscSsoData>();
 		
 		try {
 			if(dlrCd != null)
-				Data = jdbcTemp.jdbcTemplate().query(RoDataDlrGetQuery, new BeanPropertyRowMapper<>(SscRoData.class), dlrCd);
+				Data = jdbcTemp.jdbcTemplate().query(SsoDataDlrGetQuery, new BeanPropertyRowMapper<>(SscSsoData.class), dlrCd);
 			else
-				Data = jdbcTemp.jdbcTemplate().query(RoDataGetQuery, new BeanPropertyRowMapper<>(SscRoData.class));
+				Data = jdbcTemp.jdbcTemplate().query(SsoDataGetQuery, new BeanPropertyRowMapper<>(SscSsoData.class));
 		}
 		catch(Exception e) {
 			log.error("unbale to execute query", e);
@@ -39,6 +39,5 @@ public class SscRoDataRepositoryImpl {
 		
 		return Data;
 	}
-
 
 }

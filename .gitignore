@@ -1,12 +1,17 @@
+<<<<<<< HEAD
 ##############################
 ## Java
 ##############################
+=======
+
+>>>>>>> Develop
 .mtj.tmp/
 *.class
 *.jar
 *.war
 *.ear
 *.nar
+<<<<<<< HEAD
 
 ##############################
 ## Maven
@@ -27,6 +32,8 @@ buildNumber.properties
 ## Eclipse
 ##############################
 .settings/
+=======
+>>>>>>> Develop
 bin/
 tmp/
 .metadata
@@ -39,5 +46,15 @@ tmp/
 local.properties
 .loadpath
 .factorypath
+<<<<<<< HEAD
 
 
+=======
+.classpath
+*.class
+config/
+.project
+.settings/
+target/
+*.class
+>>>>>>> Develop

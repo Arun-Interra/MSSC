@@ -14,11 +14,19 @@ public class SscAltDataServiceImpl {
 	@Autowired
 	private SscAltDataRepositoryImpl altDataRepo;
 	
-	public SscAltData getDlrAltData(String dlrCd) {
-		return altDataRepo.getDlrAltData(dlrCd);
-	}
-
-	public List<SscAltData> getAltData() {
-		return altDataRepo.getAltData();
+//	public List<SscAltData> getDlrAltData(String dlrCd) {
+//		return altDataRepo.getAltData(dlrCd);
+//	}
+//
+//	public List<SscAltData> getAltData() {
+//		return altDataRepo.getAltData(null);
+//	}
+	
+	public List<SscAltData> getAltData(String dlrCd) {
+		if(dlrCd != null )
+			return altDataRepo.getAltData(dlrCd);
+		else
+			return altDataRepo.getAltData(null);
+		
 	}
 }
