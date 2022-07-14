@@ -26,7 +26,7 @@ public class SscEmployeDataRepositoryImpl {
 	
 	final String TechCnt = "SELECT * FROM MMAT.SSC_EMPLOYE_DATA WHERE JOB_CD = 'D350'";
 	
-	final String SaCnt = "SELECT * FROM MMAT.SSC_EMPLOYE_DATA WHERE JOB_CD IN ('D303', 'D311')";
+	final String SaCnt = "SELECT * FROM MMAT.SSC_EMPLOYE_DATA WHERE JOB_CD IN ('D303','D311')";
 	
 	final String DlrTechCnt = "SELECT * FROM MMAT.SSC_EMPLOYE_DATA WHERE DLR_CD = ? AND JOB_CD = 'D350'";
 	
@@ -53,10 +53,12 @@ public class SscEmployeDataRepositoryImpl {
 		List<SscEmployeData> Data = new ArrayList<SscEmployeData>();
 		
 		try {
-			if(dlrCd != null)
+			if(dlrCd != null) {
 				Data = jdbcTemp.jdbcTemplate().query(DlrTechCnt, new BeanPropertyRowMapper<>(SscEmployeData.class), dlrCd);
-			else
+			}
+			else {
 				Data = jdbcTemp.jdbcTemplate().query(TechCnt, new BeanPropertyRowMapper<>(SscEmployeData.class));
+			}
 		}
 		catch(Exception e) {
 			log.error("unbale to execute query", e);

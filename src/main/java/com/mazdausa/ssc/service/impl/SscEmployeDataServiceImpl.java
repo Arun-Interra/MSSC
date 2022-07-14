@@ -1,6 +1,10 @@
 package com.mazdausa.ssc.service.impl;
 
+
 import java.util.List;
+import java.util.Map;
+
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +26,21 @@ public class SscEmployeDataServiceImpl {
 	}
 	
 	
-	public List<SscEmployeData> getTechCnt(String dlrCd) {
+	public Map<String, Integer> getTechCnt(String dlrCd) {
 		if(dlrCd != null)
-			return empRepo.getTechCnt(dlrCd);
+			return empRepo.getTechCnt(dlrCd).stream().collect(Collectors.toMap(SscEmployeData::getDLR_CD, SscEmployeData::getEMPLOYEE_CNT));
 		else
-			return empRepo.getTechCnt(null);
+			return empRepo.getTechCnt(null).stream().collect(Collectors.toMap(SscEmployeData::getDLR_CD, SscEmployeData::getEMPLOYEE_CNT));
 	}
 	
-	public List<SscEmployeData> getSaCnt(String dlrCd) {
-		if(dlrCd != null)
-			return empRepo.getSaCnt(dlrCd);
+	public  Map<String, Integer> getSaCnt(String dlrCd) {
+		if(dlrCd != null) {
+	
+			return empRepo.getSaCnt(dlrCd).stream().collect(Collectors.toMap(SscEmployeData::getDLR_CD, o -> o.getEMPLOYEE_CNT(), (o1, o2) -> o1 + o2));
+			
+		}
 		else
-			return empRepo.getSaCnt(null);
+			return empRepo.getSaCnt(null).stream().collect(Collectors.toMap(SscEmployeData::getDLR_CD, o -> o.getEMPLOYEE_CNT(), (o1, o2) -> o1 + o2));
 	}
 
 }

@@ -15,6 +15,7 @@ import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.MasterDataGenerationService;
 import com.mazdausa.ssc.service.masterDataGeneration.ALTCalc;
 import com.mazdausa.ssc.service.masterDataGeneration.ALTRegionCalc;
+import com.mazdausa.ssc.service.masterDataGeneration.TechSaStallLift;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +27,11 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 	@Autowired
 	private ALTCalc altCalc;
 	
+	@Autowired
+	private TechSaStallLift techServ;
+	
+
+	
 	
 	public List<SscReportingMasterData> masterData = new ArrayList<SscReportingMasterData>();
 		
@@ -35,6 +41,7 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 		try {
 			
 			masterData = altCalc.CalcAltData(masterData);
+			masterData = techServ.CalctData(masterData);
 			
 		}
 		catch(Exception e) {
