@@ -3,6 +3,7 @@ package com.mazdausa.ssc.service.masterDataGeneration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,9 @@ public class ALTCalc {
 	@Autowired
 	private RegionalDealersService rgnDlrs;
 
-	public List<SscReportingMasterData> CalcAltData(List<SscReportingMasterData> masterData){
+	public Map<String, SscReportingMasterData> CalcAltData(Map<String, SscReportingMasterData> masterData){
 		
-		Map<String, Double> Map_altRgnVsDlr = altRgn.GetAltRgnAvg();
+		Map<String, Double> Map_altRgnAvg = altRgn.GetAltRgnAvg();
 		
 		Map<String, Set<String>> RgnDealers = rgnDlrs.getRgnDealers();
 		
@@ -38,69 +39,38 @@ public class ALTCalc {
 		 */
 		List<SscAltData> altData = altServ.getAltData(null); // null returns the data for all the dealers
 		
-		 altData.stream().forEach((ad) ->
-		 {
-			 SscReportingMasterData data = new SscReportingMasterData();
-			 double dlrAlt = ad.getALT_VALUE();
-			 if(dlrAlt == 0) {
-				 data.setISSUE_OPPRT_AREA_SPLY("No Data");
-			 }
-		 if(RgnDealers.get("MW").contains(ad.getDLR_CD())) 
-		 {
-			 
-			 double rgnAlt = Map_altRgnVsDlr.get("MW");
-			 double dlrVsRgn = (dlrAlt/rgnAlt);
-			 
-			 data.setDLR_CD(ad.getDLR_CD());
-			 data.setALT_DLR_ACT(dlrAlt);
-			 data.setALT_RGN_ACT(rgnAlt);
-			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
-			 data.setRGN_CD("MW");
+		try {			
+			altData.stream().forEach(ad ->{
+				
+				 String curDlr = ad.getDLR_CD();
+				 if(masterData.containsKey(curDlr)) {
+					 SscReportingMasterData data = masterData.get(curDlr);
+					 
+					 double dlrAlt = ad.getALT_VALUE();
+					 double rgnAvg = Map_altRgnAvg.get(data.getRGN_CD());
+
+					 if(dlrAlt == 0) {
+						 data.setISSUE_OPPRT_AREA_SPLY("No Data");
+					 } 
+					 
+					 data.setALT_DLR_ACT(dlrAlt);
+					 data.setALT_RGN_ACT(rgnAvg);
+					 data.setALT_DLR_VS_RGN_PCT(dlrAlt / rgnAvg);
+				 
+				 masterData.put(curDlr, data);
+				 
+				 } 
+				 else {
+					 log.info("Dealer not found in the regional dealer list <common-service api> : " +curDlr);
+				 }
+			});
 			
-			 masterData.add(data);
-		 }
-		 else if(RgnDealers.get("NE").contains(ad.getDLR_CD())) 
-		 {
-			 double rgnAlt = Map_altRgnVsDlr.get("NE");
-			 double dlrVsRgn =  (dlrAlt/rgnAlt);
-			 
-			 data.setDLR_CD(ad.getDLR_CD());
-			 data.setALT_DLR_ACT(dlrAlt);
-			 data.setALT_RGN_ACT(rgnAlt);
-			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
-			 data.setRGN_CD("NE");
-			 
-			 masterData.add(data);
-		 }
-		 else if(RgnDealers.get("GU").contains(ad.getDLR_CD())) 
-		 {
-			 double rgnAlt = Map_altRgnVsDlr.get("GU");
-			 double dlrVsRgn =  (dlrAlt/rgnAlt);
-			 
-			 data.setDLR_CD(ad.getDLR_CD());
-			 data.setALT_DLR_ACT(dlrAlt);
-			 data.setALT_RGN_ACT(rgnAlt);
-			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
-			 data.setRGN_CD("GU");
-			 
-			 masterData.add(data);
-		 }
-		 else if(RgnDealers.get("PA").contains(ad.getDLR_CD())) 
-		 {
-			 double rgnAlt = Map_altRgnVsDlr.get("PA");
-			 double dlrVsRgn =  (dlrAlt/rgnAlt);
-			 
-			 data.setDLR_CD(ad.getDLR_CD());
-			 data.setALT_DLR_ACT(dlrAlt);
-			 data.setALT_RGN_ACT(rgnAlt);
-			 data.setALT_DLR_VS_RGN_PCT(dlrVsRgn);
 			
-			 masterData.add(data);
-		 }
-		});
+		}
+		catch(Exception e) {
+			log.error("Unable to calculate the ALT data ", e);
+		}
 		
 		return masterData;
 	}
-
-
 }
