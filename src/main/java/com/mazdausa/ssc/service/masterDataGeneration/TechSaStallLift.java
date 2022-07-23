@@ -1,6 +1,5 @@
 package com.mazdausa.ssc.service.masterDataGeneration;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,12 @@ public class TechSaStallLift {
 					if(StallCntAct.containsKey(dlr)) {				//check the Map has the dealer -> indicates the dealers has data for Facility
 						
 						data.setSTALLS_CNT_ACT(StallCntAct.get(dlr)); //set the stall count
-						data.setSTALLS_USAGE_ACT_PCT((TechCntAct.get(dlr) / StallCntAct.get(dlr)) * 100);  //set stall usage % Act -->(No of Tech Actual / No of Stall Actual)
+						if(StallCntAct.get(dlr) >0) {
+							data.setSTALLS_USAGE_ACT_PCT((TechCntAct.get(dlr) / StallCntAct.get(dlr)) * 100);  //set stall usage % Act -->(No of Tech Actual / No of Stall Actual)
+						}
+						else {
+							data.setSTALLS_USAGE_ACT_PCT(0);
+						}
 						
 						int stallToAdd = data.getSTALLS_CNT_REQ() - data.getSTALLS_CNT_ACT();   // calc stall to add --> (# required stall - # actual stall)
 						if(stallToAdd > 0) {

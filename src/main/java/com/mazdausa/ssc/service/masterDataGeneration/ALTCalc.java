@@ -2,15 +2,12 @@ package com.mazdausa.ssc.service.masterDataGeneration;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mazdausa.ssc.dao.SscAltData;
 import com.mazdausa.ssc.dao.SscReportingMasterData;
-import com.mazdausa.ssc.service.impl.RegionalDealersService;
 import com.mazdausa.ssc.service.impl.SscAltDataServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +22,11 @@ public class ALTCalc {
 	@Autowired
 	private ALTRegionCalc altRgn;
 	
-	@Autowired
-	private RegionalDealersService rgnDlrs;
 
 	public Map<String, SscReportingMasterData> CalcAltData(Map<String, SscReportingMasterData> masterData){
 		
 		Map<String, Double> Map_altRgnAvg = altRgn.GetAltRgnAvg();
 		
-		Map<String, Set<String>> RgnDealers = rgnDlrs.getRgnDealers();
 		
 		/*
 		 * Calculation of ALT_DLR_ACT/ALT_RGN_ACT

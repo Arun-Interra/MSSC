@@ -177,4 +177,17 @@ public class BaseDataController {
 	}
 	
 	
+	
+	@GetMapping(value = {"/Test", "/Test/{dlrCd}"})
+	public GenericResponse getCWIYrRoData(@PathVariable(required = false) String dlrCd) {
+		if(dlrCd != null)
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+				roServ.getRollTwelveMonth(),null);
+		else
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					roServ.getCWYrRoData(),null);
+			
+	}
+	
+	
 }

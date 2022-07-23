@@ -1,9 +1,6 @@
 package com.mazdausa.ssc.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.MasterDataGenerationService;
 import com.mazdausa.ssc.service.masterDataGeneration.ALTCalc;
+import com.mazdausa.ssc.service.masterDataGeneration.ROCalc;
 import com.mazdausa.ssc.service.masterDataGeneration.TechSaStallLift;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +28,9 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 	
 	@Autowired
 	private TechSaStallLift techServ;
+	
+	@Autowired
+	private ROCalc roCalc;
 
 	//generate the base List of dealers master data
 	public Map<String, SscReportingMasterData> getBaseMasterData(){
@@ -65,6 +66,7 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 			
 			masterData = altCalc.CalcAltData(masterData);
 			masterData = techServ.CalctData(masterData);
+			masterData = roCalc.CalcRoData(masterData);
 			
 		}
 		catch(Exception e) {
