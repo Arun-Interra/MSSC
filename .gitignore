@@ -1,0 +1,19 @@
+# Java
+=======
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+#Maven
+target/
+
+# Eclipse
+.settings/
+
+# Folder
+========
+bin/
+tmp/
