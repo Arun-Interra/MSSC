@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class SscUioData {
 
-	private int YEAR;
-	private int MONTH;
-	private String DLR_CD;
-	private String UIO_TYPE;
-	private int UIO_VAL;
-	private String CREATED_BY;
-	private LocalDateTime CREATE_TM;
-	private String LAST_UPDATED_BY;
-	private LocalDateTime LAST_UPDATE_TM;
+	public int YEAR;
+	public int MONTH;
+	public String DLR_CD;
+	public String UIO_TYPE;
+	public int UIO_VAL;
+	public String CREATED_BY;
+	public LocalDateTime CREATE_TM;
+	public String LAST_UPDATED_BY;
+	public LocalDateTime LAST_UPDATE_TM;
 }

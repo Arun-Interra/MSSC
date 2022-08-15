@@ -1,6 +1,8 @@
 package com.mazdausa.ssc.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,12 @@ public class SscAvgVisitDataServiceImpl {
 			return avgVistRepo.getAvgVisitData(dlrCd);
 		else
 			return avgVistRepo.getAvgVisitData(null);
+	}
+	
+	//Key -> DLR_CD,  Value -> AVG_VISIT_VAL
+	public Map<String, Double> getAvgVistDataMap(){
+		
+		return avgVistRepo.getAvgVisitData(null).stream().collect(Collectors.toMap(SscAvgVisitData::getDLR_CD, SscAvgVisitData::getAVG_VISIT_VAL));
 	}
 	
 }

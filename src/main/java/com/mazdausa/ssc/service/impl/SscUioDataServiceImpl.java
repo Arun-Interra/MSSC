@@ -17,8 +17,8 @@ public class SscUioDataServiceImpl {
 	
 	public List<SscUioData> getUioData(String dlrCd){
 		if(dlrCd != null)
-			return uioRepo.getRoData(dlrCd);
+			return uioRepo.getUioData(dlrCd);
 		else
-			return uioRepo.getRoData(null);
+			return uioRepo.getUioData(null);
 	}
 }

@@ -176,5 +176,13 @@ public class BaseDataController {
 					rgnDlrServ.getRgnDealers(),null);
 	}
 	
+		
+	@GetMapping(value = {"/Test"})
+	public GenericResponse getCWIYrRoData(@PathVariable(required = false) String dlrCd) {
+			return GenericResponseWrapper.GenericResponseFunction.apply(
+					"msscsvc application backend service",null);
+			
+	}
+	
 	
 }

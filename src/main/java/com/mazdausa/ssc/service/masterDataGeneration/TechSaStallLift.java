@@ -1,12 +1,10 @@
 package com.mazdausa.ssc.service.masterDataGeneration;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mazdausa.ssc.dao.SscEmployeData;
 import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.impl.SscEmployeDataServiceImpl;
 import com.mazdausa.ssc.service.impl.SscFacilityDataServiceImpl;
@@ -25,58 +23,64 @@ public class TechSaStallLift {
 	
 
 	
-	public List<SscReportingMasterData> CalctData(List<SscReportingMasterData> masterData){
+	public Map<String, SscReportingMasterData> CalctData(Map<String, SscReportingMasterData> masterData){
 		
 		try {
-			Map<String, Integer> SaCnt = empServ.getSaCnt(null);
-			Map<String, Integer> TechCnt = empServ.getSaCnt(null);
+			Map<String, Integer> SaCntAct = empServ.getSaCnt(null);
+			Map<String, Integer> TechCntAct = empServ.getTechCnt(null);
 			
 			Map<String, Integer> StallCntAct = facServ.getStallsCnt(null);
 		
 			
-			masterData.stream().forEach((md) ->{
-				String dlr = md.getDLR_CD();
-				if(TechCnt.containsKey(dlr)) {
-					md.setTECH_CNT_ACT(TechCnt.get(dlr));
-					md.setSTALLS_CNT_REQ(TechCnt.get(dlr));
+			masterData.keySet().stream().forEach((dlr) ->{
+				
+				SscReportingMasterData data = masterData.get(dlr);
+				
+				if(TechCntAct.containsKey(dlr)) {		//check the Map has the dealer -> indicates the dealers has data for technician
 					
-					if(StallCntAct.containsKey(dlr)) {
-						md.setSTALLS_CNT_ACT(StallCntAct.get(dlr));
+					data.setTECH_CNT_ACT(TechCntAct.get(dlr));	//set the technician count
+					data.setSTALLS_CNT_REQ(TechCntAct.get(dlr));	//set the stall count as same as technician count
+					
+					if(StallCntAct.containsKey(dlr)) {				//check the Map has the dealer -> indicates the dealers has data for Facility
 						
-						int stallToAdd = md.getSTALLS_CNT_REQ() - md.getSTALLS_CNT_ACT();
-						if(stallToAdd <= 0) {
-							md.setSLTALLS_TO_ADD(0);
+						data.setSTALLS_CNT_ACT(StallCntAct.get(dlr)); //set the stall count
+						if(StallCntAct.get(dlr) >0) {
+							data.setSTALLS_USAGE_ACT_PCT((TechCntAct.get(dlr) / StallCntAct.get(dlr)) * 100);  //set stall usage % Act -->(No of Tech Actual / No of Stall Actual)
 						}
 						else {
-							md.setSLTALLS_TO_ADD(Math.abs(stallToAdd));
+							data.setSTALLS_USAGE_ACT_PCT(0);
+						}
+						
+						int stallToAdd = data.getSTALLS_CNT_REQ() - data.getSTALLS_CNT_ACT();   // calc stall to add --> diff (#required stall - #actual stall)
+						if(stallToAdd > 0) {
+							data.setSLTALLS_TO_ADD(stallToAdd);
 						}
 					}
 					else {
-						md.setSTALLS_CNT_ACT(0);
+						data.setSTALLS_CNT_ACT(0);
+						data.setSTALLS_USAGE_ACT_PCT(0);
+						log.info("unable to find/retrive STALL data for : " +dlr);
 					}
 				}
 				else {
-					md.setTECH_CNT_ACT(0);
-					md.setSTALLS_CNT_REQ(0);
+					data.setTECH_CNT_ACT(0);
+					data.setSTALLS_CNT_REQ(0);
+					log.info("unable to find/retrive TECHNICIAN data for : " +dlr);
 				}
-				if(SaCnt.containsKey(dlr)) {
-					md.setSA_CNT_ACT(SaCnt.get(dlr));
+				
+				if(SaCntAct.containsKey(dlr)) {
+					data.setSA_CNT_ACT(SaCntAct.get(dlr));
 				}
 				else {
-					md.setSA_CNT_ACT(0);
+					data.setSA_CNT_ACT(0);
+					log.info("unable to find/retrive SERVICE_ADVISOR data for : " +dlr);
 				}
 			});
 			
 		}
 		catch(Exception e) {
 			log.error("Unable to extract data from the employee table for Tech/SA/Stall data", e);
-		}
-		
-		
-		
-		
-		
-		
+		}	
 		
 		return masterData;
 	}

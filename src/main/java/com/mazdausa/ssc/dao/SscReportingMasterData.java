@@ -45,7 +45,7 @@ public class SscReportingMasterData {
 	private int SLTALLS_TO_ADD;
 	
 	private int SA_CNT_ACT;
-	private int RO_CIW_CNT_PER_SA_PER_DA; //configValue
+	private int RO_CIW_CNT_PER_SA_PER_DAY; //configValue
 	private int RO_CIW_CNT_PER_SA_PER_WEEK_POT;
 	private int RO_CIW_CNT_PER_SA_PER_YEAR_POT;
 	private double SA_USAGE_ACT_PCT;

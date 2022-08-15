@@ -7,13 +7,14 @@ import lombok.Data;
 @Data
 public class SscConfigData {
 
-	private String TYPE;
-	private String KEY_CD;
-	private String VALUE;
-	private String DESCRIPTION;
-	private String STATUS;
-	private String CREATED_BY;
-	private LocalDateTime CREATE_TM;
-	private String LAST_UPDATED_BY;
-	private LocalDateTime LAST_UPDATE_TM;
+	public String TYPE;
+	public String SUB_TYPE;
+	public String KEY_CD;
+	public String VALUE;
+	public String DESCRIPTION;
+	public String STATUS;
+	public String CREATED_BY;
+	public LocalDateTime CREATE_TM;
+	public String LAST_UPDATED_BY;
+	public LocalDateTime LAST_UPDATE_TM;
 }

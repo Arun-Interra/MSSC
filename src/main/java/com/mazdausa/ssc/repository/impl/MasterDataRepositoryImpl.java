@@ -25,7 +25,6 @@ public class MasterDataRepositoryImpl{
 	
 	
 	public SscReportingMasterData getDlrMasterData(String dlrCd) {
-		// TODO Auto-generated method stub
 	
 		SscReportingMasterData rptMstData = new SscReportingMasterData();
 		try {
@@ -38,7 +37,6 @@ public class MasterDataRepositoryImpl{
 	
 	
 	public List<SscReportingMasterData> getAllMasterData() {
-		// TODO Auto-generated method stub
 	
 		List<SscReportingMasterData> rptMstData = new ArrayList<SscReportingMasterData>();
 		try {

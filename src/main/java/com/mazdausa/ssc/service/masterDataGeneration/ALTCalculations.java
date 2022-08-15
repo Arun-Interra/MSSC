@@ -14,16 +14,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ALTCalc {
+public class ALTCalculations {
 	
 	@Autowired
 	private SscAltDataServiceImpl altServ;
 	
 	@Autowired
-	private ALTRegionCalc altRgn;
+	private RegionAverageCalculations altRgn;
+	
+	double ALT_VALUE = 0;
+	double ALT_RGN_ACT = 0;
+	double ALT_DLR_VS_RGN_PCT = 0;
 	
 
-	public Map<String, SscReportingMasterData> CalcAltData(Map<String, SscReportingMasterData> masterData){
+	public Map<String, SscReportingMasterData> CalctAltData(Map<String, SscReportingMasterData> masterData){
 		
 		Map<String, Double> Map_altRgnAvg = altRgn.GetAltRgnAvg();
 		
@@ -40,16 +44,19 @@ public class ALTCalc {
 				 if(masterData.containsKey(curDlr)) {
 					 SscReportingMasterData data = masterData.get(curDlr);
 					 
-					 double dlrAlt = ad.getALT_VALUE();
-					 double rgnAvg = Map_altRgnAvg.get(data.getRGN_CD());
+					 ALT_VALUE = ad.getALT_VALUE();
+					 ALT_RGN_ACT = Map_altRgnAvg.get(data.getRGN_CD());
 
-					 if(dlrAlt == 0) {
+					 if(ALT_VALUE == 0) {
 						 data.setISSUE_OPPRT_AREA_SPLY("No Data");
 					 } 
 					 
-					 data.setALT_DLR_ACT(dlrAlt);
-					 data.setALT_RGN_ACT(rgnAvg);
-					 data.setALT_DLR_VS_RGN_PCT(dlrAlt / rgnAvg);
+					 data.setALT_DLR_ACT(ALT_VALUE);
+					 data.setALT_RGN_ACT(ALT_RGN_ACT);
+					 
+					 //check if the value is zero to avoid divide by zero error
+					 ALT_DLR_VS_RGN_PCT = ALT_RGN_ACT > 0 ? (ALT_VALUE / ALT_RGN_ACT) : 0;
+					 data.setALT_DLR_VS_RGN_PCT(ALT_DLR_VS_RGN_PCT);
 				 
 				 masterData.put(curDlr, data);
 				 
