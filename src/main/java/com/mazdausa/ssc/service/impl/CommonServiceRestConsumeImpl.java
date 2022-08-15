@@ -28,8 +28,6 @@ public class CommonServiceRestConsumeImpl implements CommonServiceRestConsume{
 	@Override
 	public Dealers getRgnDlrs(String rgnCd) {
 		
-		if(dlrs.isEmpty() || !dlrs.containsKey(rgnCd)) {
-		
 		String uri = cmnSrvEP.getRgn_dlr_url()+rgnCd;
 		
 		HttpHeaders header = rest.getHeader();
@@ -38,7 +36,6 @@ public class CommonServiceRestConsumeImpl implements CommonServiceRestConsume{
 		ResponseEntity<Dealers> response = rest.getObject().exchange(uri, HttpMethod.GET, new HttpEntity<Dealers>(header), Dealers.class);
 		
 		dlrs.put(rgnCd, response.getBody());
-		}
 		
 		return dlrs.get(rgnCd);
 	}

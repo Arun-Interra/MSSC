@@ -7,16 +7,16 @@ import lombok.Data;
 @Data
 public class SscFacilityData {
 	
-	private int YEAR;
-	private int MONTH;
-	private String DLR_CD;
-	private int STALLS_CNT;
-	private int MMA_STALLS_CNT;
-	private int LIFTS_CNT;
-	private int MMA_LIFTS_CNT;
-	private String CREATED_BY;
-	private LocalDateTime  CREATE_TM;
-	private String LAST_UPDATED_BY;
-	private LocalDateTime LAST_UPDATE_TM;
+	public int YEAR;
+	public int MONTH;
+	public String DLR_CD;
+	public int STALLS_CNT;
+	public int MMA_STALLS_CNT;
+	public int LIFTS_CNT;
+	public int MMA_LIFTS_CNT;
+	public String CREATED_BY;
+	public LocalDateTime  CREATE_TM;
+	public String LAST_UPDATED_BY;
+	public LocalDateTime LAST_UPDATE_TM;
 
 }

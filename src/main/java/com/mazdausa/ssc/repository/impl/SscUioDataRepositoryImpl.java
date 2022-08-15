@@ -24,7 +24,7 @@ public class SscUioDataRepositoryImpl {
 	final String UioDataGetQuery = "SELECT * FROM MMAT.SSC_UIO_DATA";
 
 	
-	public List<SscUioData> getRoData(String dlrCd) {
+	public List<SscUioData> getUioData(String dlrCd) {
 		List<SscUioData> Data = new ArrayList<SscUioData>();
 		
 		try {

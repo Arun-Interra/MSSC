@@ -1,5 +1,7 @@
 package com.mazdausa.ssc.service.impl;
 
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,7 @@ public class SscRoDataServiceImpl {
 		Map<String, Integer> dateMap = new HashMap<String, Integer>();
 		
 		LocalDate endDate = LocalDate.now().minusMonths(1);
+		endDate = endDate.with(lastDayOfMonth());
 		LocalDate startDate = endDate.minusYears(1).withDayOfMonth(1);
 		
 		dateMap.put("startDate", startDate.getDayOfMonth());

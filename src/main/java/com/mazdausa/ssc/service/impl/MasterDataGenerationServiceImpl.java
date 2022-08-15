@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.mazdausa.ssc.dao.SscReportingMasterData;
 import com.mazdausa.ssc.service.MasterDataGenerationService;
-import com.mazdausa.ssc.service.masterDataGeneration.ALTCalc;
-import com.mazdausa.ssc.service.masterDataGeneration.ROCalc;
-import com.mazdausa.ssc.service.masterDataGeneration.TechSaStallLift;
+import com.mazdausa.ssc.service.masterDataGeneration.ALTCalculations;
+import com.mazdausa.ssc.service.masterDataGeneration.ConfigData;
+import com.mazdausa.ssc.service.masterDataGeneration.DemandSituationRelatedCalculations;
+import com.mazdausa.ssc.service.masterDataGeneration.ProfitRelatedCalculations;
+import com.mazdausa.ssc.service.masterDataGeneration.ServiceAdvisorRelatedCalculations;
+import com.mazdausa.ssc.service.masterDataGeneration.TechnicianStallRelatedCalculations;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,13 +27,23 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 	private RegionalDealersService rgnDlrs;
 	
 	@Autowired
-	private ALTCalc altCalc;
+	private ConfigData configData;
 	
 	@Autowired
-	private TechSaStallLift techServ;
+	private ALTCalculations altCalc;
 	
 	@Autowired
-	private ROCalc roCalc;
+	private TechnicianStallRelatedCalculations techServ;
+	
+	@Autowired
+	private ServiceAdvisorRelatedCalculations  SaServ;
+	
+	@Autowired
+	private ProfitRelatedCalculations profServ;
+	
+	@Autowired
+	private DemandSituationRelatedCalculations dmdSitServ;
+	
 
 	//generate the base List of dealers master data
 	public Map<String, SscReportingMasterData> getBaseMasterData(){
@@ -63,10 +76,12 @@ public class MasterDataGenerationServiceImpl implements MasterDataGenerationServ
 	public Map<String, SscReportingMasterData> getMasterData(){
 			Map<String, SscReportingMasterData> masterData = getBaseMasterData();
 		try {
-			
-			masterData = altCalc.CalcAltData(masterData);
+			masterData = configData.SetConfigData(masterData);
+			masterData = altCalc.CalctAltData(masterData);
 			masterData = techServ.CalctData(masterData);
-			masterData = roCalc.CalcRoData(masterData);
+			masterData = SaServ.CalctData(masterData);
+			masterData = dmdSitServ.CalctData(masterData);
+			masterData = profServ.CalctData(masterData);
 			
 		}
 		catch(Exception e) {

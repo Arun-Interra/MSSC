@@ -51,7 +51,7 @@ public class TechSaStallLift {
 							data.setSTALLS_USAGE_ACT_PCT(0);
 						}
 						
-						int stallToAdd = data.getSTALLS_CNT_REQ() - data.getSTALLS_CNT_ACT();   // calc stall to add --> (# required stall - # actual stall)
+						int stallToAdd = data.getSTALLS_CNT_REQ() - data.getSTALLS_CNT_ACT();   // calc stall to add --> diff (#required stall - #actual stall)
 						if(stallToAdd > 0) {
 							data.setSLTALLS_TO_ADD(stallToAdd);
 						}

@@ -19,7 +19,7 @@ public class RegionalDealersService {
 	@Autowired
 	private CommonServiceRestConsumeImpl cmnServ;
 	
-	@PostConstruct   // Retrieve Region-Dealers data on application startup
+	//@PostConstruct   // Retrieve Region-Dealers data on application startup
 	public Map<String, Set<String>> getRgnDealers(){
 		
 		Map<String, Set<String>> dlrs = new HashMap<String, Set<String>>();
